@@ -10,7 +10,7 @@ let decode
 let bigintToArray
 let getChecksum
 let validateChecksum
-let NewFromString
+let newFromString
 
 class Address {
   constructor({ str }) {
@@ -65,7 +65,7 @@ decode = address => {
   return newAddress(protocol, payload)
 }
 
-NewFromString = address => {
+newFromString = address => {
   return decode(address)
 }
 
@@ -75,5 +75,5 @@ module.exports = {
   bigintToArray,
   newAddress,
   decode,
-  NewFromString
+  newFromString
 }

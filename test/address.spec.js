@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const { expect } = require('chai')
 // const borc = require('borc')
-const { NewFromString } = require('../src/index')
+const { newFromString } = require('../src/index')
 const {
   IDAddresses,
   secp256k1Addresses,
@@ -15,10 +15,10 @@ function typedArraysAreEqual(a, b) {
 }
 
 describe('address', () => {
-  describe('NewFromString', () => {
+  describe('newFromString', () => {
     it('should create new ID addresses', async () => {
       IDAddresses.forEach(item => {
-        const address = NewFromString(item.string)
+        const address = newFromString(item.string)
         expect(
           typedArraysAreEqual(
             Uint8Array.from(address.str),
@@ -30,7 +30,7 @@ describe('address', () => {
 
     it('should create new secp256k1 addresses', async () => {
       secp256k1Addresses.forEach(item => {
-        const address = NewFromString(item.string)
+        const address = newFromString(item.string)
         expect(
           typedArraysAreEqual(
             Uint8Array.from(address.str),
@@ -42,7 +42,7 @@ describe('address', () => {
 
     it('should create new BLS addresses', async () => {
       BLSAddresses.forEach(item => {
-        const address = NewFromString(item.string)
+        const address = newFromString(item.string)
         expect(
           typedArraysAreEqual(
             Uint8Array.from(address.str),
@@ -54,7 +54,7 @@ describe('address', () => {
 
     it('should create new Actor addresses', async () => {
       actorAddresses.forEach(item => {
-        const address = NewFromString(item.string)
+        const address = newFromString(item.string)
         expect(
           typedArraysAreEqual(
             Uint8Array.from(address.str),
