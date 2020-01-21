@@ -2,7 +2,6 @@
 const varint = require('varint')
 const { blake2b } = require('blakejs')
 const base32Function = require('./base32')
-// const { ID, SECP256K1, Actor, BLS } = require('./constants')
 
 const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
 
@@ -12,29 +11,12 @@ let bigintToArray
 let getChecksum
 let validateChecksum
 let NewFromString
-// let addressHash
 
 class Address {
   constructor({ str }) {
     if (!str) throw new Error('Missing str in address')
     this.str = str
   }
-
-  // newIDAddress = id => {
-  //   return newAddress(ID, varint.encode(id))
-  // }
-
-  // newSecp256k1Address = pubkey => {
-  //   return newAddress(SECP256K1, addressHash(pubkey))
-  // }
-
-  // newActorAddress = data => {
-  //   return newAddress(Actor, addressHash(data))
-  // }
-
-  // newBLSAddress = pubkey => {
-  //   return newAddress(BLS, pubkey)
-  // }
 }
 
 bigintToArray = v => {
@@ -54,7 +36,6 @@ validateChecksum = (ingest, expect) => {
 }
 
 newAddress = (protocol, payload) => {
-  // TODO: add string checks as seen in Lotus
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
 
@@ -64,14 +45,12 @@ newAddress = (protocol, payload) => {
 }
 
 decode = address => {
-  // TODO: add string checks as seen in Lotus
   const protocol = address.slice(1, 2)
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
   const raw = address.substring(2, address.length)
 
   if (protocol === '0') {
-    // TODO: Check for valid raw string
     return newAddress(protocol, Buffer.from(varint.encode(parseInt(raw))))
   }
 
@@ -89,10 +68,6 @@ decode = address => {
 NewFromString = address => {
   return decode(address)
 }
-
-// addressHash = ingest => {
-//   return blake2b(ingest, null, 20)
-// }
 
 module.exports = {
   Address,
