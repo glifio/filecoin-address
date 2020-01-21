@@ -2,16 +2,17 @@
 const varint = require('varint')
 const { blake2b } = require('blakejs')
 const base32Function = require('./base32')
+// const { ID, SECP256K1, Actor, BLS } = require('./constants')
 
-const { ID, SECP256K1, Actor, BLS } = require('./constants')
+const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
 
 let newAddress
 let decode
 let bigintToArray
 let getChecksum
 let validateChecksum
-
-const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
+let NewFromString
+// let addressHash
 
 class Address {
   constructor({ str }) {
@@ -19,25 +20,21 @@ class Address {
     this.str = str
   }
 
-  NewIDAddress = id => {
-    return newAddress(ID, varint.ToUvarint(id))
-  }
+  // newIDAddress = id => {
+  //   return newAddress(ID, varint.encode(id))
+  // }
 
-  NewSecp256k1Address = pubkey => {
-    return newAddress(SECP256K1, addressHash(pubkey))
-  }
+  // newSecp256k1Address = pubkey => {
+  //   return newAddress(SECP256K1, addressHash(pubkey))
+  // }
 
-  NewActorAddress = data => {
-    return newAddress(Actor, addressHash(data))
-  }
+  // newActorAddress = data => {
+  //   return newAddress(Actor, addressHash(data))
+  // }
 
-  NewBLSAddress = pubkey => {
-    return newAddress(BLS, pubkey)
-  }
-
-  NewFromString = address => {
-    return decode(address)
-  }
+  // newBLSAddress = pubkey => {
+  //   return newAddress(BLS, pubkey)
+  // }
 }
 
 bigintToArray = v => {
@@ -75,7 +72,7 @@ decode = address => {
 
   if (protocol === '0') {
     // TODO: Check for valid raw string
-    return newAddress(protocol, varint.encode(parseInt(raw)))
+    return newAddress(protocol, Buffer.from(varint.encode(parseInt(raw))))
   }
 
   const payloadChecksum = new Buffer.from(base32.decode(raw))
@@ -89,10 +86,19 @@ decode = address => {
   return newAddress(protocol, payload)
 }
 
+NewFromString = address => {
+  return decode(address)
+}
+
+// addressHash = ingest => {
+//   return blake2b(ingest, null, 20)
+// }
+
 module.exports = {
   Address,
   validateChecksum,
   bigintToArray,
   newAddress,
-  decode
+  decode,
+  NewFromString
 }

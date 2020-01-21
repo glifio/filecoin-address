@@ -1,32 +1,67 @@
 /* eslint-env mocha */
 const { expect } = require('chai')
-const Address = require('../src/index')
+// const borc = require('borc')
+const { NewFromString } = require('../src/index')
+const {
+  IDAddresses,
+  secp256k1Addresses,
+  BLSAddresses,
+  actorAddresses
+} = require('./constants')
 
-// For each protocol...
-//   Test random address
-//   Test five vectors
-//   Test invalid string vectors (invalid protocol, length, payload)
-//   Test invalid byte vectors
-// Test checksum
-// Test big int marshalling
-
-// Test valid and invalid address construction
-
-function debugWithoutEncoding(answer) {
-  const bytes = Uint8Array.from(answer)
-  let debugBytes = ''
-  for (let i = 0; i < bytes.byteLength; i++) {
-    debugBytes = debugBytes.concat(bytes[i].toString())
-    debugBytes = debugBytes.concat(' ')
-  }
-  return debugBytes
+function typedArraysAreEqual(a, b) {
+  if (a.byteLength !== b.byteLength) return false
+  return a.every((val, i) => val === b[i])
 }
 
 describe('address', () => {
-  describe('decode', () => {
-    it('should decode ID addresses', async () => {
-      const address = new Address({})
-      const answer = expect(true).to.be.eql(true)
+  describe('NewFromString', () => {
+    it('should create new ID addresses', async () => {
+      IDAddresses.forEach(item => {
+        const address = NewFromString(item.string)
+        expect(
+          typedArraysAreEqual(
+            Uint8Array.from(address.str),
+            item.decodedByteArray
+          )
+        ).to.eql(true)
+      })
+    })
+
+    it('should create new secp256k1 addresses', async () => {
+      secp256k1Addresses.forEach(item => {
+        const address = NewFromString(item.string)
+        expect(
+          typedArraysAreEqual(
+            Uint8Array.from(address.str),
+            item.decodedByteArray
+          )
+        ).to.eql(true)
+      })
+    })
+
+    it('should create new BLS addresses', async () => {
+      BLSAddresses.forEach(item => {
+        const address = NewFromString(item.string)
+        expect(
+          typedArraysAreEqual(
+            Uint8Array.from(address.str),
+            item.decodedByteArray
+          )
+        ).to.eql(true)
+      })
+    })
+
+    it('should create new Actor addresses', async () => {
+      actorAddresses.forEach(item => {
+        const address = NewFromString(item.string)
+        expect(
+          typedArraysAreEqual(
+            Uint8Array.from(address.str),
+            item.decodedByteArray
+          )
+        ).to.eql(true)
+      })
     })
   })
 })
