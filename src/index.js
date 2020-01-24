@@ -14,7 +14,7 @@ let validateChecksum
 let newFromString
 
 class Address {
-  constructor({ str }) {
+  constructor(str) {
     if (!str) throw new Error('Missing str in address')
     this.str = str
   }
@@ -54,9 +54,7 @@ newAddress = (protocol, payload) => {
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
 
-  return new Address({
-    str: Buffer.concat([protocolByte, payload])
-  })
+  return new Address(Buffer.concat([protocolByte, payload]))
 }
 
 decode = address => {
