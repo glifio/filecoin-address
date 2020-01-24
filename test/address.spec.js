@@ -81,8 +81,8 @@ describe('address', () => {
     })
 
     it('should encode an Actor address', async () => {
-      const address = newFromString(BLSAddresses[0].string)
-      expect(encode('t', address)).to.eql(BLSAddresses[0].string)
+      const address = newFromString(actorAddresses[0].string)
+      expect(encode('t', address)).to.eql(actorAddresses[0].string)
     })
   })
 })
