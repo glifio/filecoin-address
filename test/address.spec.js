@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 const { expect } = require('chai')
-// const borc = require('borc')
-const { newFromString } = require('../src/index')
+const { newFromString, encode } = require('../')
 const {
   IDAddresses,
   secp256k1Addresses,
@@ -62,6 +61,28 @@ describe('address', () => {
           )
         ).to.eql(true)
       })
+    })
+  })
+
+  describe('encode', () => {
+    it('should encode an ID address', async () => {
+      const address = newFromString(IDAddresses[0].string)
+      expect(encode('t', address)).to.eql(IDAddresses[0].string)
+    })
+
+    it('should encode a secp256k1 address', async () => {
+      const address = newFromString(secp256k1Addresses[0].string)
+      expect(encode('t', address)).to.eql(secp256k1Addresses[0].string)
+    })
+
+    it('should encode a BLS address', async () => {
+      const address = newFromString(BLSAddresses[0].string)
+      expect(encode('t', address)).to.eql(BLSAddresses[0].string)
+    })
+
+    it('should encode an Actor address', async () => {
+      const address = newFromString(BLSAddresses[0].string)
+      expect(encode('t', address)).to.eql(BLSAddresses[0].string)
     })
   })
 })

@@ -7,6 +7,7 @@ const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
 
 let newAddress
 let decode
+let encode
 let bigintToArray
 let getChecksum
 let validateChecksum
@@ -16,6 +17,20 @@ class Address {
   constructor({ str }) {
     if (!str) throw new Error('Missing str in address')
     this.str = str
+  }
+
+  protocol = () => {
+    if (this.str.length < 1) {
+      return Error('No address found.')
+    }
+    return this.str[0]
+  }
+
+  payload = () => {
+    if (this.str.length < 1) {
+      return Error('No address found.')
+    }
+    return this.str.slice(1, this.str.length)
   }
 }
 
@@ -65,6 +80,31 @@ decode = address => {
   return newAddress(protocol, payload)
 }
 
+encode = (network, address) => {
+  if (!address || !address.str) throw Error('Invalid address')
+  let addressString = ''
+  const payload = address.payload()
+
+  switch (address.protocol()) {
+    case 0: {
+      const int = varint.decode(address.payload())
+      addressString = network + String(address.protocol()) + int
+      break
+    }
+    default: {
+      const protocolByte = new Buffer.alloc(1)
+      protocolByte[0] = address.protocol()
+      const checksum = getChecksum(Buffer.concat([protocolByte, payload]))
+      const bytes = Buffer.concat([payload, Buffer.from(checksum)])
+      addressString =
+        String(network) + String(address.protocol()) + base32.encode(bytes)
+      break
+    }
+  }
+
+  return addressString
+}
+
 newFromString = address => {
   return decode(address)
 }
@@ -75,5 +115,7 @@ module.exports = {
   bigintToArray,
   newAddress,
   decode,
-  newFromString
+  encode,
+  newFromString,
+  getChecksum
 }
