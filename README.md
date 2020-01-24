@@ -17,7 +17,8 @@ const address = newFromString('t1hvuzpfdycc6z6mjgbiyaiojikd6wk2vwy7muuei')
 
 const decoded = address.str
 
-const encoded = encode(address)
+const networkPrefix = 't'
+const encoded = encode(networkPrefix, address)
 ```
 
 ## Test
