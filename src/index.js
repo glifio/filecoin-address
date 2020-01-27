@@ -6,16 +6,18 @@ const base32Function = require('./base32')
 const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
 
 let newAddress
+let newFromString
 let decode
 let encode
 let bigintToArray
 let getChecksum
 let validateChecksum
-let newFromString
+let validateAddressString
+let checkAddressString
 
 class Address {
   constructor(str) {
-    if (!str) throw new Error('Missing str in address')
+    if (!str || str.length < 1) throw new Error('Missing str in address')
     this.str = str
   }
 
@@ -58,6 +60,8 @@ newAddress = (protocol, payload) => {
 }
 
 decode = address => {
+  checkAddressString(address)
+
   const protocol = address.slice(1, 2)
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
@@ -107,13 +111,55 @@ newFromString = address => {
   return decode(address)
 }
 
+validateAddressString = string => {
+  try {
+    checkAddressString(string)
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+checkAddressString = address => {
+  if (!address) throw Error('No bytes to validate.')
+  if (address.length < 3) throw Error('Address is too short to validate.')
+  if (address[0] !== 'f' && address[0] !== 't') {
+    throw Error('Unknown address network.')
+  }
+
+  switch (address[1]) {
+    case '0': {
+      if (address.length > 22) throw Error('Invalid ID address length.')
+      break
+    }
+    case '1': {
+      if (address.length !== 41)
+        throw Error('Invalid secp256k1 address length.')
+      break
+    }
+    case '2': {
+      if (address.length !== 41) throw Error('Invalid Actor address length.')
+      break
+    }
+    case '3': {
+      if (address.length !== 86) throw Error('Invalid BLS address length.')
+      break
+    }
+    default: {
+      throw new Error('Invalid address protocol.')
+    }
+  }
+}
+
 module.exports = {
   Address,
-  validateChecksum,
-  bigintToArray,
   newAddress,
+  newFromString,
+  bigintToArray,
   decode,
   encode,
-  newFromString,
-  getChecksum
+  getChecksum,
+  validateChecksum,
+  validateAddressString,
+  checkAddressString
 }
