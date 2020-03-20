@@ -1,5 +1,5 @@
 /* eslint-disable radix,prefer-const */
-const varint = require('varint')
+const leb = require('leb128')
 const { blake2b } = require('blakejs')
 const base32Function = require('./base32')
 
@@ -68,7 +68,7 @@ decode = address => {
   const raw = address.substring(2, address.length)
 
   if (protocol === '0') {
-    return newAddress(protocol, Buffer.from(varint.encode(parseInt(raw))))
+    return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
   }
 
   const payloadChecksum = new Buffer.from(base32.decode(raw))
@@ -89,8 +89,10 @@ encode = (network, address) => {
 
   switch (address.protocol()) {
     case 0: {
-      const int = varint.decode(address.payload())
-      addressString = network + String(address.protocol()) + int
+      addressString =
+        network +
+        String(address.protocol()) +
+        leb.unsigned.decode(address.payload())
       break
     }
     default: {
