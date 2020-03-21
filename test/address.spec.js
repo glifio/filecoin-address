@@ -18,6 +18,11 @@ describe('address', () => {
     it('should create new ID addresses', async () => {
       IDAddresses.forEach(item => {
         const address = newFromString(item.string)
+        console.log(
+          'Uint8Array.from(address.str)',
+          Uint8Array.from(address.str)
+        )
+        console.log('item.decodedByteArray', item.decodedByteArray)
         expect(
           typedArraysAreEqual(
             Uint8Array.from(address.str),
