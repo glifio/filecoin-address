@@ -62,6 +62,7 @@ newAddress = (protocol, payload) => {
 decode = address => {
   checkAddressString(address)
 
+  const network = address.slice(0, 1)
   const protocol = address.slice(1, 2)
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
@@ -79,7 +80,11 @@ decode = address => {
     throw Error("Checksums don't match")
   }
 
-  return newAddress(protocol, payload)
+  const addressObj = newAddress(protocol, payload)
+  if (encode(network, addressObj) !== address)
+    throw Error(`Did not encode this address properly: ${address}`)
+
+  return addressObj
 }
 
 encode = (network, address) => {
