@@ -36,8 +36,8 @@ const encoded = encode(networkPrefix, address)
 
 ## Test
 
-`yarn install`<br/>
-`yarn test`
+`npm install`<br/>
+`npm test`
 
 ## License
 
