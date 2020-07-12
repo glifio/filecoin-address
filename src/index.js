@@ -1,5 +1,5 @@
 /* eslint-disable radix,prefer-const */
-const varint = require('varint')
+const leb = require('leb128')
 const { blake2b } = require('blakejs')
 const base32Function = require('./base32')
 
@@ -62,13 +62,14 @@ newAddress = (protocol, payload) => {
 decode = address => {
   checkAddressString(address)
 
+  const network = address.slice(0, 1)
   const protocol = address.slice(1, 2)
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
   const raw = address.substring(2, address.length)
 
   if (protocol === '0') {
-    return newAddress(protocol, Buffer.from(varint.encode(parseInt(raw))))
+    return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
   }
 
   const payloadChecksum = new Buffer.from(base32.decode(raw))
@@ -79,7 +80,11 @@ decode = address => {
     throw Error("Checksums don't match")
   }
 
-  return newAddress(protocol, payload)
+  const addressObj = newAddress(protocol, payload)
+  if (encode(network, addressObj) !== address)
+    throw Error(`Did not encode this address properly: ${address}`)
+
+  return addressObj
 }
 
 encode = (network, address) => {
@@ -89,8 +94,10 @@ encode = (network, address) => {
 
   switch (address.protocol()) {
     case 0: {
-      const int = varint.decode(address.payload())
-      addressString = network + String(address.protocol()) + int
+      addressString =
+        network +
+        String(address.protocol()) +
+        leb.unsigned.decode(address.payload())
       break
     }
     default: {
