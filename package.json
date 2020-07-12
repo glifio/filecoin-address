@@ -1,6 +1,6 @@
 {
   "name": "@openworklabs/filecoin-address",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "The Filecoin address type",
   "main": "./dist/index.js",
   "browser": "./lib/index.js",
@@ -22,10 +22,10 @@
     "leb128": "0.0.5"
   },
   "devDependencies": {
-    "@babel/cli": "7.7.4",
-    "@babel/core": "7.7.4",
-    "@babel/plugin-proposal-class-properties": "7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
+    "@babel/cli": "7.10.4",
+    "@babel/core": "7.10.4",
+    "@babel/plugin-proposal-class-properties": "7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.10.4",
     "@babel/preset-env": "7.10.4",
     "babel-eslint": "^10.0.3",
     "cross-env": "6.0.3",
