@@ -2,6 +2,7 @@
 const leb = require('leb128')
 const { blake2b } = require('blakejs')
 const base32Function = require('./base32')
+const BigNumber = require('bignumber.js')
 
 const base32 = base32Function('abcdefghijklmnopqrstuvwxyz234567')
 
@@ -69,6 +70,12 @@ decode = address => {
   const raw = address.substring(2, address.length)
 
   if (protocol === '0') {
+    const rawBN = new BigNumber(raw)
+    const max = new BigNumber('9223372036854775808')
+    if (rawBN.isGreaterThanOrEqualTo(max)) {
+      throw Error('IDs must be less than 2^63')
+    }
+
     return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
   }
 
