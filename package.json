@@ -1,6 +1,6 @@
 {
   "name": "@openworklabs/filecoin-address",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "The Filecoin address type",
   "main": "./dist/index.js",
   "browser": "./lib/index.js",
@@ -13,7 +13,7 @@
     "preinstall": "npm run notify:deprecated",
     "prepublishOnly": "npm run build",
     "test": "npm run build && jest",
-    "notify:deprecated": "echo \"\\x1b[31mTHIS PACKAGE HAS BEEN DEPRECATED IN FAVOR OF:\n@glif/filecoin-address\nPLEASE INSTALL UPDATED VERSION NOW.\"",
+    "notify:deprecated": "echo \"\\x1b[31m@openworklabs/filecoin-address HAS BEEN DEPRECATED IN FAVOR OF:\n@glif/filecoin-address\nPLEASE INSTALL UPDATED VERSION NOW.\"",
     "test:watch": "npm run build && jest --watch"
   },
   "author": "Open Work Labs",
