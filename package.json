@@ -1,6 +1,6 @@
 {
   "name": "@openworklabs/filecoin-address",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "The Filecoin address type",
   "main": "./dist/index.js",
   "browser": "./lib/index.js",
@@ -10,6 +10,7 @@
     "build-module": "cross-env BABEL_ENV=module babel ./src --out-dir ./module --source-maps --copy-files",
     "build-node": "babel ./src --out-dir ./dist --source-maps --copy-files",
     "build": "npm run build-node && npm run build-browser && npm run build-module",
+    "preinstall": "node deprecated.js",
     "prepublishOnly": "npm run build",
     "test": "npm run build && jest",
     "test:watch": "npm run build && jest --watch"

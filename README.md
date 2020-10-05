@@ -1,43 +1,9 @@
 # filecoin-address
 
-[![Travis CI](https://travis-ci.org/openworklabs/filecoin-address.svg?branch=primary)](https://travis-ci.org/openworklabs/filecoin-address)
+This package has been deprecated. Please visit:
 
-This is a JS implementation of the Filecoin address type, inspired by [go-address](https://github.com/filecoin-project/go-address). It can create new address instances and encode addresses, and it takes care of decoding and validating checksums.
-
-## Install
-
-`yarn add @openworklabs/filecoin-address`
-
-## Usage
-
-```js
-const { newFromString, encode } = require('@openworklabs/filecoin-address')
-
-const address = newFromString('t1hvuzpfdycc6z6mjgbiyaiojikd6wk2vwy7muuei')
-const addressProtocol = address.protocol()
-const addressPayload = address.payload()
-const addressString = address.str
-
-const networkPrefix = 't'
-const encoded = encode(networkPrefix, address)
-```
-
-#### Exported methods
-
-- newAddress
-- newFromString
-- decode
-- encode
-- bigintToArray
-- getChecksum
-- validateChecksum
-- validateAddressString
-- checkAddressString
-
-## Test
-
-`npm install`<br/>
-`npm test`
+[GitHub](https://github.com/glifio/modules/tree/primary/packages/filecoin-address)
+[npm](https://www.npmjs.com/package/@glif/filecoin-message)
 
 ## License
 
