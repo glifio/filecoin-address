@@ -28,19 +28,22 @@ const IDAddresses = [
     decodedByteArray: Uint8Array.of(0, 193, 13)
   },
   {
-    string: 't09999999999999999999',
+    string: 't0999999',
+    decodedByteArray: Uint8Array.of(0, 191, 132, 61)
+  },
+  {
+    string: 't09223372036854775807',
     decodedByteArray: Uint8Array.of(
       0,
       255,
       255,
-      159,
-      207,
-      200,
-      224,
-      200,
-      227,
-      138,
-      1
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      127
     )
   }
 ]

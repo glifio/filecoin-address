@@ -64,6 +64,10 @@ describe('address', () => {
     test('it should throw when given a bad ID addresses', async () => {
       expect(() => newFromString('t0')).toThrow()
     })
+
+    test('it should throw when ID is too big', async () => {
+      expect(() => newFromString('t09223372036854775808')).toThrow()
+    })
   })
 
   describe('encode', () => {
